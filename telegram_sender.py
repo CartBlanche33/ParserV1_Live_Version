@@ -1,0 +1,15 @@
+import requests
+
+TOKEN = "7981399325:AAGZGt-PUMjzNgIoYNo2TKZMyOyxEBN2jCA"
+CHAT_ID = 686332841  # вставь свой chat_id
+
+def send_telegram_message(text):
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": text
+    }
+    try:
+        requests.post(url, data=payload)
+    except Exception as e:
+        print(f"Ошибка при отправке в Telegram: {e}")
