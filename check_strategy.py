@@ -8,6 +8,7 @@ from datetime import datetime
 from telegram_sender import send_telegram_message
 
 
+
 def load_processed_links(filename="processed_links.json"):
     if os.path.exists(filename):
         with open(filename, "r", encoding="utf-8") as file:
@@ -85,6 +86,8 @@ def analyze_first_set_winner_stats(driver, link):
             set1_button = WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Set 1')]"))
             )
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", set1_button)
+            time.sleep(0.5)
             set1_button.click()
             time.sleep(1.5)
         except Exception as e:
@@ -130,7 +133,7 @@ def analyze_first_set_winner_stats(driver, link):
             if double_faults_int == 0 and serve_won_percent > 70:
                 print(f"✅ Матч подходит. Игрок: {winner_name}")
                 save_processed_link(link, winner_name)
-                send_telegram_message(f"✅ Матч: {winner_name}\nСсылка: {link}")
+                send_telegram_message(f"✅ Игрок: {winner_name}\nСсылка: {link}")
             else:
                 print(f"❌ Матч не подходит. Игрок: {winner_name}")
         except Exception as e:
